@@ -6,7 +6,7 @@
     "type": "offline"
   },
 "server": {
-    "ip": "hyena.aternos.host",
+    "ip": "boxweiler.aternos.host:48149",
     "port": 48149,
     "version": "1.21",
     "try-creative": false
