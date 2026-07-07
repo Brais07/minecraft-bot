@@ -8,7 +8,7 @@
 "server": {
     "ip": "hyena.aternos.host",
     "port": 48149,
-    "version": "1.21",
+    "version": "",
     "try-creative": false
   },
   "position": {
