@@ -1,19 +1,23 @@
-{
-  "name": "slobos-afk-aternos-bot",
-  "version": "1.0.0",
-  "description": "Minecraft AFK Bot para Aternos",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "mineflayer": "^4.22.0",
-    "mineflayer-auto-eat": "^3.1.0",
-    "mineflayer-movement": "^1.1.2",
-    "mineflayer-pathfinder": "^2.4.5"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "license": "MIT"
+// Cargar el servidor Express para que Render no tire la aplicación
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.get('/', (req, res) => {
+    res.send('Slobot funcionando correctamente.');
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor web activo en el puerto ${PORT}`);
+});
+
+// Arrancar el bot oficial de Slobos
+try {
+    const { createBot } = require('./leaveRejoin.js');
+    const settings = require('./settings.json');
+
+    console.log("Iniciando el bot con la configuración de settings.json...");
+    createBot(settings);
+} catch (error) {
+    console.error("Error al iniciar las dependencias del bot:", error);
 }
