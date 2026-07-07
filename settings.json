@@ -5,10 +5,10 @@
     "password": "",
     "type": "offline"
   },
-"server": {
-    "ip": brais.aternos.me",
+  "server": {
+    "ip": "brais.aternos.me",
     "port": 48149,
-    "version": "",
+    "version": "1.21",
     "try-creative": false
   },
   "position": {
