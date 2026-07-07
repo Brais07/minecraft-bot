@@ -1,8 +1,6 @@
 "use strict";
 
 const mineflayer = require("mineflayer");
-const { Movements, pathfinder, goals } = require("mineflayer-pathfinder");
-const { GoalBlock } = goals;
 const config = require("./settings.json");
 const express = require("express");
 
@@ -34,13 +32,11 @@ function scheduleReconnect() {
   if (isReconnecting) return;
   isReconnecting = true;
   
-  const delay = 15000; // Intentar reconectar cada 15 segundos constantes
-  console.log(`[System] Reconectando en 15 segundos...`);
-  
+  console.log(`[System] Buscando reconexion en 20 segundos...`);
   setTimeout(() => {
     isReconnecting = false;
     startBot();
-  }, delay);
+  }, 20000);
 }
 
 function startBot() {
@@ -61,53 +57,65 @@ function startBot() {
       auth: "offline"
     });
 
-    bot.loadPlugin(pathfinder);
-
     bot.once("spawn", () => {
       console.log(`[Bot] ${bot.username} ha entrado al servidor con exito.`);
 
       if (config.utils["auto-auth"]?.enabled) {
         setTimeout(() => {
-          console.log("[Bot] Enviando comandos de autenticacion...");
           bot.chat(`/register ${config.utils["auto-auth"].password} ${config.utils["auto-auth"].password}`);
           bot.chat(`/login ${config.utils["auto-auth"].password}`);
         }, 2000);
       }
 
+      // --- SISTEMA ANTI-AFK AVANZADO ---
       const afkTimer = setInterval(() => {
         if (!bot) return;
-        console.log("[Bot] Haciendo salto Anti-AFK");
-        bot.setControlState("jump", true);
-        setTimeout(() => bot.setControlState("jump", false), 500);
-      }, 20000);
+
+        // 1. Accion aleatoria: Saltar, agacharse o mirar a otro lado
+        const acciones = ["jump", "sneak", "look"];
+        const eleccion = acciones[Math.floor(Math.random() * acciones.length)];
+
+        if (eleccion === "jump") {
+          console.log("[Anti-AFK] Realizando salto");
+          bot.setControlState("jump", true);
+          setTimeout(() => bot.setControlState("jump", false), 400);
+        } 
+        else if (eleccion === "sneak") {
+          console.log("[Anti-AFK] Agachandose");
+          bot.setControlState("sneak", true);
+          setTimeout(() => bot.setControlState("sneak", false), 800);
+        } 
+        else if (eleccion === "look") {
+          console.log("[Anti-AFK] Mirando a nueva posicion");
+          const yaw = (Math.random() * 360) * (Math.PI / 180);
+          const pitch = ((Math.random() * 40) - 20) * (Math.PI / 180);
+          bot.look(yaw, pitch, true);
+        }
+
+      }, 15000); // Se ejecuta cada 15 segundos de forma variada
+      
       timers.push(afkTimer);
     });
 
-    bot.on("chat", (username, message) => {
-      if (username === bot.username) return;
-      console.log(`[Chat] <${username}> ${message}`);
-    });
-
     bot.on("kick", (reason) => {
-      console.log(`[Bot] Expulsado del servidor. Razon: ${JSON.stringify(reason)}`);
+      console.log(`[Bot] Expulsado: ${JSON.stringify(reason)}`);
       scheduleReconnect();
     });
 
     bot.on("end", () => {
-      console.log("[Bot] Conexion finalizada con el servidor.");
+      console.log("[Bot] Conexion finalizada.");
       scheduleReconnect();
     });
 
     bot.on("error", (err) => {
-      console.log(`[Error] Error en el bot: ${err.message}`);
+      console.log(`[Error] ${err.message}`);
       scheduleReconnect();
     });
 
   } catch (error) {
-    console.log(`[Error Fatal] No se pudo crear el bot: ${error.message}`);
+    console.log(`[Error Fatal] ${error.message}`);
     scheduleReconnect();
   }
 }
 
-// Arrancar el bot
 startBot();
