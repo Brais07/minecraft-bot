@@ -7,9 +7,8 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "express": "^4.19.2",
     "mineflayer": "^4.22.0",
-    "mineflayer-auto-eat": "^3.1.0",
-    "mineflayer-movement": "^1.1.2",
     "mineflayer-pathfinder": "^2.4.5"
   },
   "engines": {
