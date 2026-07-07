@@ -6,7 +6,7 @@
     "type": "offline"
   },
 "server": {
-    "ip": "hyena.aternos.host",
+    "ip": "kudu.aternos.host",
     "port": 48149,
     "version": "",
     "try-creative": false
