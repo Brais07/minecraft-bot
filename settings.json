@@ -6,7 +6,7 @@
     "type": "offline"
   },
 "server": {
-    "ip": "whalefish.aternos.host",
+    "ip": brais.aternos.me",
     "port": 48149,
     "version": "",
     "try-creative": false
