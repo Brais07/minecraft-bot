@@ -5,8 +5,8 @@
     "password": "",
     "type": "offline"
   },
-  "server": {
-    "ip": "brais.aternos.me",
+"server": {
+    "ip": "whalefish.aternos.host",
     "port": 48149,
     "version": "",
     "try-creative": false
