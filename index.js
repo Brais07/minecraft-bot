@@ -1,13 +1,19 @@
-const fs = require('fs');
-
-if (!fs.existsSync('./settings.json')) {
-    console.error("settings.json not found!");
-    process.exit(1);
+{
+  "name": "slobos-afk-aternos-bot",
+  "version": "1.0.0",
+  "description": "Minecraft AFK Bot para Aternos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mineflayer": "^4.22.0",
+    "mineflayer-auto-eat": "^3.1.0",
+    "mineflayer-movement": "^1.1.2",
+    "mineflayer-pathfinder": "^2.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
 }
-
-// Forzamos la carga limpia del archivo principal usando la ruta exacta
-const { createBot } = require('./leaveRejoin.js');
-const settings = JSON.parse(fs.readFileSync('./settings.json', 'utf8'));
-
-console.log("Iniciando Slobot00 en Aternos...");
-createBot(settings);
